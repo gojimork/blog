@@ -1,0 +1,32 @@
+@font-face {
+  font-family: "Inter UI";
+  src: url("../../fonts/Inter-Regular.woff2") format("woff2"),
+    url("../../fonts/Inter-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+* {
+  padding: 0;
+  margin: 0;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+}
+
+li {
+  list-style-type: none;
+}
+
+.app-wrap {
+  width: 1440px;
+  height: 897px;
+  font-family: "Inter UI";
+  margin: 0 auto;
+}
+
+.main {
+  background-color: #ebeef3;
+  height: 100%;
+}
