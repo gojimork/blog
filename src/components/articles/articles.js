@@ -1,149 +1,60 @@
 import classes from "./articles.module.scss";
+import { v4 as uuidv4 } from "uuid";
+import { format } from "date-fns";
 
 import { Avatar, Pagination } from "antd";
 import Like from "../like";
 import Tags from "../tags";
+import { useEffect, useState } from "react";
 
 const Articles = () => {
+  const [data, setData] = useState([]);
+
+  const getArticles = async () => {
+    const response = await fetch(
+      "https://api.realworld.io/api/articles?limit=5"
+    );
+    const body = await response.json();
+    setData(body.articles);
+  };
+
+  useEffect(() => {
+    getArticles();
+  }, []);
+
+  const articlesList = data.map(
+    ({ title, description, tagList, favoritesCount, updatedAt, author }) => {
+      const { username, image } = author;
+      const id = uuidv4();
+      return (
+        <li key={id} className={classes["article-item"]}>
+          <div className={classes["article-item__content"]}>
+            <div className={classes["article-item__header"]}>
+              <h5 className={classes["article-item__title"]}>{title}</h5>
+              <Like favoritesCount={favoritesCount} />
+            </div>
+            <Tags tagList={tagList} />
+            <article className={classes["article-item__text"]}>
+              {description}
+            </article>
+          </div>
+          <div className={classes["article-item__signature"]}>
+            <div className={classes["signature"]}>
+              <span className={classes["signature__name"]}>{username}</span>
+              <span className={classes["signature__date"]}>
+                {format(new Date(updatedAt), "	LLLL d, y")}
+              </span>
+            </div>
+            <Avatar size={46} src={image} />
+          </div>
+        </li>
+      );
+    }
+  );
+
   return (
     <div className={classes["articles-wrap"]}>
-      <ul className={classes["article-list"]}>
-        <li className={classes["article-item"]}>
-          <div className={classes["article-item__content"]}>
-            <div className={classes["article-item__header"]}>
-              <h5 className={classes["article-item__title"]}>
-                Some article title
-              </h5>
-              <Like />
-            </div>
-            <Tags />
-            <article className={classes["article-item__text"]}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-            </article>
-          </div>
-          <div className={classes["article-item__signature"]}>
-            <div className={classes["signature"]}>
-              <span className={classes["signature__name"]}>John Doe</span>
-              <span className={classes["signature__date"]}>March 5, 2020 </span>
-            </div>
-            <Avatar
-              size={46}
-              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-            />
-          </div>
-        </li>
-        <li className={classes["article-item"]}>
-          <div className={classes["article-item__content"]}>
-            <div className={classes["article-item__header"]}>
-              <h5 className={classes["article-item__title"]}>
-                Some article title
-              </h5>
-              <Like />
-            </div>
-            <Tags />
-            <article className={classes["article-item__text"]}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-            </article>
-          </div>
-          <div className={classes["article-item__signature"]}>
-            <div className={classes["signature"]}>
-              <span className={classes["signature__name"]}>John Doe</span>
-              <span className={classes["signature__date"]}>March 5, 2020 </span>
-            </div>
-            <Avatar
-              size={46}
-              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-            />
-          </div>
-        </li>
-        <li className={classes["article-item"]}>
-          <div className={classes["article-item__content"]}>
-            <div className={classes["article-item__header"]}>
-              <h5 className={classes["article-item__title"]}>
-                Some article title
-              </h5>
-              <Like />
-            </div>
-            <Tags />
-            <article className={classes["article-item__text"]}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-            </article>
-          </div>
-          <div className={classes["article-item__signature"]}>
-            <div className={classes["signature"]}>
-              <span className={classes["signature__name"]}>John Doe</span>
-              <span className={classes["signature__date"]}>March 5, 2020 </span>
-            </div>
-            <Avatar
-              size={46}
-              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-            />
-          </div>
-        </li>
-        <li className={classes["article-item"]}>
-          <div className={classes["article-item__content"]}>
-            <div className={classes["article-item__header"]}>
-              <h5 className={classes["article-item__title"]}>
-                Some article title
-              </h5>
-              <Like />
-            </div>
-            <Tags />
-            <article className={classes["article-item__text"]}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-            </article>
-          </div>
-          <div className={classes["article-item__signature"]}>
-            <div className={classes["signature"]}>
-              <span className={classes["signature__name"]}>John Doe</span>
-              <span className={classes["signature__date"]}>March 5, 2020 </span>
-            </div>
-            <Avatar
-              size={46}
-              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-            />
-          </div>
-        </li>
-        <li className={classes["article-item"]}>
-          <div className={classes["article-item__content"]}>
-            <div className={classes["article-item__header"]}>
-              <h5 className={classes["article-item__title"]}>
-                Some article title
-              </h5>
-              <Like />
-            </div>
-            <Tags />
-            <article className={classes["article-item__text"]}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-            </article>
-          </div>
-          <div className={classes["article-item__signature"]}>
-            <div className={classes["signature"]}>
-              <span className={classes["signature__name"]}>John Doe</span>
-              <span className={classes["signature__date"]}>March 5, 2020 </span>
-            </div>
-            <Avatar
-              size={46}
-              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-            />
-          </div>
-        </li>
-      </ul>
+      <ul className={classes["article-list"]}>{articlesList}</ul>
       <Pagination defaultCurrent={1} total={50} />
     </div>
   );
