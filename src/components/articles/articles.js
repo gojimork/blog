@@ -8,21 +8,23 @@ import Tags from "../tags";
 import { useEffect, useState } from "react";
 
 const Articles = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({ articles: [] });
+  const [page, setPage] = useState(1);
 
   const getArticles = async () => {
+    const offset = (page - 1) * 5;
     const response = await fetch(
-      "https://api.realworld.io/api/articles?limit=5"
+      `https://api.realworld.io/api/articles?limit=5&offset=${offset}`
     );
     const body = await response.json();
-    setData(body.articles);
+    setData(body);
   };
 
   useEffect(() => {
     getArticles();
-  }, []);
+  }, [page]);
 
-  const articlesList = data.map(
+  const articlesList = data.articles.map(
     ({ title, description, tagList, favoritesCount, updatedAt, author }) => {
       const { username, image } = author;
       const id = uuidv4();
@@ -42,7 +44,7 @@ const Articles = () => {
             <div className={classes["signature"]}>
               <span className={classes["signature__name"]}>{username}</span>
               <span className={classes["signature__date"]}>
-                {format(new Date(updatedAt), "	LLLL d, y")}
+                {format(new Date(updatedAt), "LLLL d, y")}
               </span>
             </div>
             <Avatar size={46} src={image} />
@@ -55,7 +57,11 @@ const Articles = () => {
   return (
     <div className={classes["articles-wrap"]}>
       <ul className={classes["article-list"]}>{articlesList}</ul>
-      <Pagination defaultCurrent={1} total={50} />
+      <Pagination
+        current={page}
+        total={data.articlesCount}
+        onChange={(e) => setPage(e)}
+      />
     </div>
   );
 };
