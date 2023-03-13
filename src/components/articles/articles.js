@@ -9,6 +9,7 @@ import Like from "../like";
 import Tags from "../tags";
 
 const Articles = ({ page }) => {
+  const history = useHistory();
   const [data, setData] = useState({ articles: [] });
 
   const getArticles = useCallback(async () => {
@@ -22,8 +23,6 @@ const Articles = ({ page }) => {
   useEffect(() => {
     getArticles();
   }, [getArticles]);
-
-  const history = useHistory();
 
   const articlesList = data.articles.map(
     ({ title, description, tagList, favoritesCount, updatedAt, author }) => {
@@ -59,9 +58,9 @@ const Articles = ({ page }) => {
     <div className={classes["articles-wrap"]}>
       <ul className={classes["article-list"]}>{articlesList}</ul>
       <Pagination
-        current={Number(page)}
+        current={page}
         total={data.articlesCount}
-        onChange={(e) => history.push(`${e}`)}
+        onChange={(e) => history.replace(String(e))}
         showSizeChanger={false}
       />
     </div>
