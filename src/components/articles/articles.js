@@ -1,21 +1,20 @@
 import classes from "./articles.module.scss";
 import { v4 as uuidv4 } from "uuid";
 import { format } from "date-fns";
+import { useEffect, useState, useCallback } from "react";
+import { useHistory } from "react-router-dom";
 
 import { Avatar, Pagination } from "antd";
 import Like from "../like";
 import Tags from "../tags";
-import { useEffect, useState, useCallback } from "react";
 
-const Articles = () => {
+const Articles = ({ page }) => {
   const [data, setData] = useState({ articles: [] });
-  const [page, setPage] = useState(1);
 
   const getArticles = useCallback(async () => {
     const offset = (page - 1) * 5;
-    const response = await fetch(
-      `https://api.realworld.io/api/articles?limit=5&offset=${offset}`
-    );
+    const url = `https://api.realworld.io/api/articles?limit=5&offset=${offset}`;
+    const response = await fetch(url);
     const body = await response.json();
     setData(body);
   }, [page]);
@@ -23,6 +22,8 @@ const Articles = () => {
   useEffect(() => {
     getArticles();
   }, [getArticles]);
+
+  const history = useHistory();
 
   const articlesList = data.articles.map(
     ({ title, description, tagList, favoritesCount, updatedAt, author }) => {
@@ -58,9 +59,10 @@ const Articles = () => {
     <div className={classes["articles-wrap"]}>
       <ul className={classes["article-list"]}>{articlesList}</ul>
       <Pagination
-        current={page}
+        current={Number(page)}
         total={data.articlesCount}
-        onChange={(e) => setPage(e)}
+        onChange={(e) => history.push(`${e}`)}
+        showSizeChanger={false}
       />
     </div>
   );
