@@ -5,6 +5,7 @@ import Tags from "../tags";
 import { format } from "date-fns";
 
 const ArticleHeader = ({ details }) => {
+  if (!details) return;
   const { title, description, tagList, favoritesCount, updatedAt, author } =
     details;
   const { username, image } = author;

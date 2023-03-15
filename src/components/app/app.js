@@ -18,20 +18,20 @@ const App = () => {
           <Switch>
             <Route
               exact
-              path="/page/:page"
+              path="/:page"
               render={({ match }) => {
                 const { page } = match.params;
                 return <Articles page={Number(page)} />;
               }}
             />
             <Route
-              path="/:slug"
+              path="/article/:slug"
               render={({ match }) => {
-                const slug = match.params;
+                const { slug } = match.params;
                 return <ArticleDetails slug={slug} />;
               }}
             />
-            <Redirect to="/page/1" />
+            <Redirect to="/1" />
           </Switch>
         </div>
       </div>
