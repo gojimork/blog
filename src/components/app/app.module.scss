@@ -24,3 +24,13 @@ li {
   font-family: "Inter UI";
   margin: 0 auto;
 }
+
+.articles-wrap {
+  background-color: #ebeef3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 27px;
+  padding: 26px 0;
+  margin: 0 auto;
+}
