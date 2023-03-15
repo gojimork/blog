@@ -4,11 +4,11 @@ import { v4 as uuidv4 } from "uuid";
 import ArticleHeader from "../article-header";
 
 const ArticleList = ({ data }) => {
-  const articlesList = data.map((ditales) => {
+  const articlesList = data.map((details) => {
     const id = uuidv4();
     return (
       <li key={id}>
-        <ArticleHeader ditales={ditales} />
+        <ArticleHeader details={details} />
       </li>
     );
   });

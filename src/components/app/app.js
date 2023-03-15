@@ -1,7 +1,7 @@
 import classes from "./app.module.scss";
 import Header from "../header";
 import Articles from "../articles";
-import ArticleDitails from "../article-ditails";
+import ArticleDetails from "../article-details";
 import {
   BrowserRouter as Router,
   Route,
@@ -28,7 +28,7 @@ const App = () => {
               path="/:slug"
               render={({ match }) => {
                 const slug = match.params;
-                return <ArticleDitails slug={slug} />;
+                return <ArticleDetails slug={slug} />;
               }}
             />
             <Redirect to="/page/1" />

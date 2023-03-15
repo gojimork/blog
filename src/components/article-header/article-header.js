@@ -4,9 +4,9 @@ import Like from "../like";
 import Tags from "../tags";
 import { format } from "date-fns";
 
-const ArticleHeader = ({ ditales }) => {
+const ArticleHeader = ({ details }) => {
   const { title, description, tagList, favoritesCount, updatedAt, author } =
-    ditales;
+    details;
   const { username, image } = author;
   return (
     <div className={classes["article-item"]}>

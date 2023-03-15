@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import markdownFile from "./body.md";
-import classes from "./article-ditales.module.scss";
+import classes from "./article-details.module.scss";
 
-const ArticleDitails = () => {
+const ArticleDetails = () => {
   const [markdown, setMarkdown] = useState("");
   useEffect(() => {
     fetch(markdownFile)
@@ -21,4 +21,4 @@ const ArticleDitails = () => {
   );
 };
 
-export default ArticleDitails;
+export default ArticleDetails;
