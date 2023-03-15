@@ -18,7 +18,7 @@ const App = () => {
           <Switch>
             <Route
               exact
-              path="/:page"
+              path="/page/:page"
               render={({ match }) => {
                 const { page } = match.params;
                 return <Articles page={Number(page)} />;
@@ -31,7 +31,7 @@ const App = () => {
                 return <ArticleDetails slug={slug} />;
               }}
             />
-            <Redirect to="/1" />
+            <Redirect to="page/1" />
           </Switch>
         </div>
       </div>
