@@ -1,32 +1,33 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { useHistory } from "react-router-dom";
 
 import ArticleList from "../article-list/";
 import { Pagination, Spin, Alert } from "antd";
+
+import BlogApiService from "../../blog-api-service";
 
 const Articles = ({ page }) => {
   const [data, setData] = useState({ articles: [] });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const getArticles = useCallback(async () => {
+  const blogApiService = useMemo(() => new BlogApiService(), []);
+  const putArticles = useCallback(async () => {
     setLoading(true);
     try {
       const offset = (page - 1) * 5;
-      const url = `https://blog.kata.academy/api/articles?limit=5&offset=${offset}`;
-      const response = await fetch(url);
-      const body = await response.json();
-      setData(body);
+      const articleList = await blogApiService.getArticles(offset);
+      setData(articleList);
     } catch (err) {
       setError(err);
     } finally {
       setLoading(false);
     }
-  }, [page]);
+  }, [page, blogApiService]);
 
   useEffect(() => {
-    getArticles();
-  }, [getArticles]);
+    putArticles();
+  }, [putArticles]);
 
   const history = useHistory();
   return (

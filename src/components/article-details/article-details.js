@@ -1,18 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import ReactMarkdown from "react-markdown";
 import classes from "./article-details.module.scss";
 import ArticleHeader from "../article-header";
+import BlogApiService from "../../blog-api-service";
 
 const ArticleDetails = ({ slug }) => {
   const [details, setDetails] = useState(null);
 
+  const blogApiService = useMemo(() => new BlogApiService(), []);
+
+  const putArticleDetails = useCallback(
+    async (slug) => {
+      const articleDetails = await blogApiService.getArticleDetails(slug);
+      setDetails(articleDetails.article);
+    },
+    [blogApiService]
+  );
+
   useEffect(() => {
-    fetch(`https://blog.kata.academy/api/articles/${slug}`).then((response) =>
-      response.json().then((body) => {
-        setDetails(body.article);
-      })
-    );
-  }, [slug]);
+    putArticleDetails(slug);
+  }, [slug, putArticleDetails]);
 
   return (
     <div>
