@@ -1,9 +1,12 @@
 import classes from "./header.module.scss";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   return (
     <header className={classes.header}>
-      <h6 className={classes["header__title"]}>Realworld Blog</h6>
+      <Link to="/" className={classes["header__title"]}>
+        Realworld Blog
+      </Link>
       <ul className={classes["auth"]}>
         <li>
           <button className={classes["auth__btn"]}>Sign In</button>
