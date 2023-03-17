@@ -2,6 +2,7 @@ import classes from "./app.module.scss";
 import Header from "../header";
 import Articles from "../articles";
 import ArticleDetails from "../article-details";
+import SingUp from "../sing-up";
 import {
   BrowserRouter as Router,
   Route,
@@ -29,6 +30,12 @@ const App = () => {
               render={({ match }) => {
                 const { slug } = match.params;
                 return <ArticleDetails slug={slug} />;
+              }}
+            />
+            <Route
+              path="/sing-up"
+              render={() => {
+                return <SingUp />;
               }}
             />
             <Redirect to="page/1" />
