@@ -26,4 +26,18 @@ export default class BlogApiService {
     console.log(response);
     console.log(getBody);
   };
+
+  userLogin = async (user) => {
+    const url = `${this._apiBase}/users/login`;
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify(user),
+    });
+    const getBody = await response.json();
+    console.log(response);
+    console.log(getBody);
+  };
 }
