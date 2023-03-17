@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import classes from "./sing-up.module.scss";
+import classes from "./sign-up.module.scss";
 
-const SingUp = () => {
+const SignUp = () => {
   return (
     <form className={classes["sing-up"]}>
       <h2 className={classes["sing-up__title"]}>Create new account</h2>
@@ -43,7 +43,7 @@ const SingUp = () => {
       </button>
       <span className={classes.question}>
         Already have an account?{" "}
-        <Link className={classes.link} to="/">
+        <Link className={classes.link} to="/sign-in">
           Sign In.
         </Link>
       </span>
@@ -51,4 +51,4 @@ const SingUp = () => {
   );
 };
 
-export default SingUp;
+export default SignUp;

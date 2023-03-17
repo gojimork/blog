@@ -9,14 +9,17 @@ export default function Header() {
       </Link>
       <ul className={classes["auth"]}>
         <li>
-          <button className={classes["auth__btn"]}>Sign In</button>
+          <Link to="/sign-in" className={classes["auth__btn"]}>
+            Sign In
+          </Link>
         </li>
         <li>
-          <button
+          <Link
+            to="/sign-up"
             className={`${classes["auth__btn"]} ${classes["auth__btn--priority"]}`}
           >
             Sign Up
-          </button>
+          </Link>
         </li>
       </ul>
     </header>

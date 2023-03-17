@@ -2,13 +2,14 @@ import classes from "./app.module.scss";
 import Header from "../header";
 import Articles from "../articles";
 import ArticleDetails from "../article-details";
-import SingUp from "../sing-up";
+import SignUp from "../sign-up";
 import {
   BrowserRouter as Router,
   Route,
   Switch,
   Redirect,
 } from "react-router-dom";
+import SignIn from "../sign-in";
 
 const App = () => {
   return (
@@ -33,9 +34,15 @@ const App = () => {
               }}
             />
             <Route
-              path="/sing-up"
+              path="/sign-up"
               render={() => {
-                return <SingUp />;
+                return <SignUp />;
+              }}
+            />
+            <Route
+              path="/sign-in"
+              render={() => {
+                return <SignIn />;
               }}
             />
             <Redirect to="page/1" />
