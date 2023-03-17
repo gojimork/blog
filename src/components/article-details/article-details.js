@@ -12,7 +12,7 @@ const ArticleDetails = ({ slug }) => {
   const putArticleDetails = useCallback(
     async (slug) => {
       const articleDetails = await blogApiService.getArticleDetails(slug);
-      setDetails(articleDetails.article);
+      setDetails(articleDetails);
     },
     [blogApiService]
   );
