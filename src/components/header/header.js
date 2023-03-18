@@ -2,8 +2,8 @@ import classes from "./header.module.scss";
 import { Link } from "react-router-dom";
 import { Avatar } from "antd";
 
-export default function Header({ isLoggedIn, userDetails }) {
-  if (isLoggedIn) {
+export default function Header({ userDetails }) {
+  if (userDetails) {
     const { username } = userDetails;
     return (
       <header className={classes.header}>

@@ -38,22 +38,6 @@ const SignUp = () => {
       onSubmit={handleSubmit(onCreateUserSubmit)}
     >
       <h2 className={classes["sing-up__title"]}>Create new account</h2>
-      <button
-        type="button"
-        onClick={() =>
-          setError("username", { type: "pizdation", message: "nedd pizda" })
-        }
-      >
-        setError
-      </button>
-      <button
-        type="button"
-        onClick={() =>
-          setError("email", { type: "pizdation", message: "nedd pizda" })
-        }
-      >
-        setError2
-      </button>
       <ul className={classes["input-list"]}>
         <li className={classes["input-item"]}>
           <label htmlFor="name">Username</label>
