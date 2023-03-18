@@ -3,19 +3,20 @@ import { useState } from "react";
 import BlogApiService from "../../blog-api-service";
 import classes from "./sign-in.module.scss";
 
-const SignIn = () => {
+const SignIn = ({ onLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const blogApiService = new BlogApiService();
 
-  const onCreateUserSubmit = (e) => {
+  const onCreateUserSubmit = async (e) => {
     e.preventDefault();
-    blogApiService.userLogin({
+    const response = await blogApiService.userLogin({
       user: {
         email,
         password,
       },
     });
+    if (response.user) onLogin(response.user);
   };
   return (
     <form

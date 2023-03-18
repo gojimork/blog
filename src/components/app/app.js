@@ -10,12 +10,19 @@ import {
   Redirect,
 } from "react-router-dom";
 import SignIn from "../sign-in";
+import { useState } from "react";
 
 const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userDetails, setUserDetails] = useState(null);
+  const onLogin = (user) => {
+    setIsLoggedIn(true);
+    setUserDetails(user);
+  };
   return (
     <Router>
       <div className={classes["app-wrap"]}>
-        <Header />
+        <Header isLoggedIn={isLoggedIn} userDetails={userDetails} />
         <div className={classes["articles-wrap"]}>
           <Switch>
             <Route
@@ -42,7 +49,7 @@ const App = () => {
             <Route
               path="/sign-in"
               render={() => {
-                return <SignIn />;
+                return <SignIn onLogin={onLogin} />;
               }}
             />
             <Redirect to="page/1" />

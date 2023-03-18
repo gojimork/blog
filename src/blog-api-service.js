@@ -39,5 +39,6 @@ export default class BlogApiService {
     const getBody = await response.json();
     console.log(response);
     console.log(getBody);
+    return getBody;
   };
 }
