@@ -9,17 +9,26 @@ const SignUp = () => {
     formState: { errors },
     watch,
     handleSubmit,
-    reset,
+    setError,
   } = useForm({ mode: "onBlur" });
 
   const blogApiService = new BlogApiService();
 
-  const password = watch("password");
-  console.log(password);
-
-  const onCreateUserSubmit = (user) => {
-    blogApiService.postUser({ user });
-    reset();
+  const onCreateUserSubmit = async (user) => {
+    try {
+      const response = await blogApiService.postUser({ user });
+      if (response.ok) {
+        console.log("Form data submitted successfully");
+      } else {
+        const errorsObj = await response.json();
+        const errors = errorsObj.errors;
+        Object.keys(errors).forEach((key) => {
+          setError(key, { type: "server", message: errors[key] });
+        });
+      }
+    } catch (error) {
+      console.error("Form submission failed", error);
+    }
   };
 
   return (
@@ -29,6 +38,22 @@ const SignUp = () => {
       onSubmit={handleSubmit(onCreateUserSubmit)}
     >
       <h2 className={classes["sing-up__title"]}>Create new account</h2>
+      <button
+        type="button"
+        onClick={() =>
+          setError("username", { type: "pizdation", message: "nedd pizda" })
+        }
+      >
+        setError
+      </button>
+      <button
+        type="button"
+        onClick={() =>
+          setError("email", { type: "pizdation", message: "nedd pizda" })
+        }
+      >
+        setError2
+      </button>
       <ul className={classes["input-list"]}>
         <li className={classes["input-item"]}>
           <label htmlFor="name">Username</label>
@@ -88,7 +113,8 @@ const SignUp = () => {
             type="password"
             {...register("passwordRepeat", {
               required: "Поле обязательное для заполнения",
-              validate: (value) => value === password || "Пароли не совпадают",
+              validate: (value) =>
+                value === watch("password") || "Пароли не совпадают",
             })}
           />
           {errors?.passwordRepeat && (
