@@ -34,4 +34,13 @@ export default class BlogApiService {
       body: JSON.stringify(user),
     });
   };
+
+  getUser = (token) => {
+    const url = `${this._apiBase}/user`;
+    return fetch(url, {
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    });
+  };
 }

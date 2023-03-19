@@ -1,11 +1,42 @@
+import BlogApiService from "../../blog-api-service";
 import classes from "./header.module.scss";
 import { Link } from "react-router-dom";
 import { Avatar } from "antd";
+import { useCallback, useEffect, useState, useMemo } from "react";
 
-export default function Header({ userDetails, cookies, removeCookie }) {
+export default function Header({ cookies, removeCookie }) {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userDetails, setUserDetails] = useState(null);
+  const blogApiService = useMemo(() => new BlogApiService(), []);
+
   console.log(cookies);
-  if (Object.keys(cookies).length > 0) {
-    const username = userDetails?.user.username;
+  const auth = useCallback(async () => {
+    if (Object.keys(cookies).length > 0) {
+      try {
+        const response = await blogApiService.getUser(cookies?.token);
+        if (response.ok) {
+          const { user } = await response.json();
+          setUserDetails(user);
+          setIsLoggedIn(true);
+        } else {
+          const error = await response.json();
+          console.error(error);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    } else {
+      setUserDetails(null);
+      setIsLoggedIn(false);
+    }
+  }, [cookies, blogApiService]);
+
+  useEffect(() => {
+    auth();
+  }, [auth]);
+
+  if (isLoggedIn) {
+    const { username } = userDetails;
     return (
       <header className={classes.header}>
         <Link to="/" className={classes["header__title"]}>
@@ -29,10 +60,14 @@ export default function Header({ userDetails, cookies, removeCookie }) {
               />
             </Link>
           </li>
-          <li onClick={() => removeCookie("token")}>
-            <Link to="/" className={`${classes["auth__btn"]} `}>
+          <li>
+            <button
+              type="button"
+              onClick={() => removeCookie("token")}
+              className={`${classes["auth__btn"]} `}
+            >
               Log Out
-            </Link>
+            </button>
           </li>
         </ul>
       </header>

@@ -21,7 +21,6 @@ const SignIn = ({ setUserDetails, setCookie }) => {
         const userDetails = await response.json();
         const token = userDetails.user.token;
         setServerError(false);
-        setUserDetails(userDetails);
         setCookie("token", token, { path: "/" });
         console.log("loggined successfully", userDetails);
       } else {
