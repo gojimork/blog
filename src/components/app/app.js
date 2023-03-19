@@ -3,6 +3,7 @@ import Header from "../header";
 import Articles from "../articles";
 import ArticleDetails from "../article-details";
 import SignUp from "../sign-up";
+import Profile from "../profile";
 import {
   BrowserRouter as Router,
   Route,
@@ -46,6 +47,12 @@ const App = () => {
               path="/sign-in"
               render={() => {
                 return <SignIn setCookie={setCookie} />;
+              }}
+            />
+            <Route
+              path="/profile"
+              render={() => {
+                return <Profile cookies={cookies} />;
               }}
             />
             <Redirect to="page/1" />

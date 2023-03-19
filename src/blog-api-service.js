@@ -43,4 +43,18 @@ export default class BlogApiService {
       },
     });
   };
+
+  editProfile = (body, token) => {
+    const url = `${this._apiBase}/user`;
+    console.log(JSON.stringify(body));
+    console.log(token);
+    return fetch(url, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify(body),
+    });
+  };
 }
