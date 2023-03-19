@@ -4,7 +4,9 @@ import { Avatar } from "antd";
 
 export default function Header({ userDetails }) {
   if (userDetails) {
-    const { username } = userDetails;
+    const {
+      user: { username },
+    } = userDetails;
     return (
       <header className={classes.header}>
         <Link to="/" className={classes["header__title"]}>

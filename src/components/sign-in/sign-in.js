@@ -18,16 +18,17 @@ const SignIn = ({ setUserDetails }) => {
     try {
       const response = await blogApiService.userLogin({ user });
       if (response.ok) {
-        const user = await response.json();
+        const userDetails = await response.json();
         setServerError(false);
-        setUserDetails(user);
+        setUserDetails(userDetails);
+        console.log("loggined successfully", userDetails);
       } else {
         const errorObj = await response.json();
         const errors = errorObj.errors;
         Object.keys(errors).forEach((key) =>
           setServerError(`${key} ${errors[key]}`)
         );
-        console.log(errorObj.errors);
+        console.error(errorObj);
       }
     } catch (err) {
       console.error(err);

@@ -14,7 +14,6 @@ import { useState } from "react";
 
 const App = () => {
   const [userDetails, setUserDetails] = useState(null);
-
   return (
     <Router>
       <div className={classes["app-wrap"]}>
