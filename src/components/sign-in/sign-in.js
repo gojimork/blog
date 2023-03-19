@@ -5,7 +5,7 @@ import classes from "./sign-in.module.scss";
 import { useState } from "react";
 import { Alert } from "antd";
 
-const SignIn = ({ setUserDetails }) => {
+const SignIn = ({ setUserDetails, setCookie }) => {
   const [serverError, setServerError] = useState(false);
   const blogApiService = new BlogApiService();
   const {
@@ -19,8 +19,10 @@ const SignIn = ({ setUserDetails }) => {
       const response = await blogApiService.userLogin({ user });
       if (response.ok) {
         const userDetails = await response.json();
+        const token = userDetails.user.token;
         setServerError(false);
         setUserDetails(userDetails);
+        setCookie("token", token, { path: "/" });
         console.log("loggined successfully", userDetails);
       } else {
         const errorObj = await response.json();

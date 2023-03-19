@@ -2,11 +2,10 @@ import classes from "./header.module.scss";
 import { Link } from "react-router-dom";
 import { Avatar } from "antd";
 
-export default function Header({ userDetails }) {
-  if (userDetails) {
-    const {
-      user: { username },
-    } = userDetails;
+export default function Header({ userDetails, cookies, removeCookie }) {
+  console.log(cookies);
+  if (Object.keys(cookies).length > 0) {
+    const username = userDetails?.user.username;
     return (
       <header className={classes.header}>
         <Link to="/" className={classes["header__title"]}>
@@ -30,8 +29,8 @@ export default function Header({ userDetails }) {
               />
             </Link>
           </li>
-          <li>
-            <Link to="/sign-up" className={`${classes["auth__btn"]} `}>
+          <li onClick={() => removeCookie("token")}>
+            <Link to="/" className={`${classes["auth__btn"]} `}>
               Log Out
             </Link>
           </li>
