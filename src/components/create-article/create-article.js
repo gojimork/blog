@@ -8,7 +8,9 @@ const CreateArticle = ({ cookies, details }) => {
   const [inputs, setInputs] = useState([{ value: "", id: uuidv4() }]);
 
   useEffect(() => {
-    setInputs(details.tagList);
+    if (details) {
+      setInputs(details.tagList);
+    }
   }, [details]);
 
   console.log(details);

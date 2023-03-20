@@ -3,10 +3,12 @@ import { Avatar } from "antd";
 import Like from "../like";
 import Tags from "../tags";
 import { format } from "date-fns";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const ArticleHeader = ({ details }) => {
+  const history = useHistory();
   if (!details) return;
+
   const {
     title,
     description,
@@ -16,6 +18,7 @@ const ArticleHeader = ({ details }) => {
     author,
     slug,
   } = details;
+
   const { username, image } = author;
   return (
     <div className={classes["article-item"]}>
@@ -41,10 +44,12 @@ const ArticleHeader = ({ details }) => {
         </div>
         <ul className={classes["control-btn"]}>
           <li>
-            <Link to={`/articles/${slug}/edit`}>Edit</Link>
+            <button onClick={() => history.push(`/articles/${slug}/edit`)}>
+              Edit
+            </button>
           </li>
           <li>
-            <Link to={"/"}>Delete</Link>
+            <button onClick={() => history.push("/")}>Delete</button>
           </li>
         </ul>
       </div>
