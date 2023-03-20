@@ -1,18 +1,32 @@
 import classes from "./create-article.module.scss";
 import BlogApiService from "../../blog-api-service";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-const CreateArticle = ({ cookies }) => {
-  const blogApiService = new BlogApiService();
+const CreateArticle = ({ cookies, details }) => {
   const [inputs, setInputs] = useState([{ value: "", id: uuidv4() }]);
+
+  useEffect(() => {
+    setInputs(details.tagList);
+  }, [details]);
+
+  console.log(details);
   const {
     register,
     formState: { errors },
     handleSubmit,
     setError,
-  } = useForm({ mode: "onBlur" });
+  } = useForm({
+    mode: "onBlur",
+    values: {
+      title: details ? details.title : "",
+      description: details ? details.description : "",
+      body: details ? details.body : "",
+    },
+  });
+
+  const blogApiService = new BlogApiService();
 
   const handleAddInput = () => {
     const newInputs = [...inputs, { value: "", id: uuidv4() }];
@@ -56,7 +70,8 @@ const CreateArticle = ({ cookies }) => {
     try {
       const response = await blogApiService.createArticle(body, token);
       if (response.ok) {
-        console.log("Article created successfully", article);
+        const responseBody = await response.json();
+        console.log("Article created successfully", responseBody);
       } else {
         const errorsObj = await response.json();
         console.log(errorsObj);
@@ -117,7 +132,6 @@ const CreateArticle = ({ cookies }) => {
           </ul>
         </li>
       </ul>
-
       <button className={classes["submit-btn"]} type="submit">
         Save
       </button>

@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 import SignIn from "../sign-in";
 import CreateArticle from "../create-article";
+import EditArticle from "../edit-article";
 import { useCookies } from "react-cookie";
 
 const App = () => {
@@ -59,10 +60,17 @@ const App = () => {
             <Route
               path="/new-article"
               render={() => {
-                return <CreateArticle cookies={cookies} />;
+                return <CreateArticle editMode={false} cookies={cookies} />;
               }}
             />
-            <Redirect to="page/1" />
+            <Route
+              path="/articles/:slug/edit"
+              render={({ match }) => {
+                const { slug } = match.params;
+                return <EditArticle slug={slug} cookies={cookies} />;
+              }}
+            />
+            <Redirect to="/page/1" />
           </Switch>
         </div>
       </div>

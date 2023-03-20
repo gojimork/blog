@@ -3,11 +3,19 @@ import { Avatar } from "antd";
 import Like from "../like";
 import Tags from "../tags";
 import { format } from "date-fns";
+import { Link } from "react-router-dom";
 
 const ArticleHeader = ({ details }) => {
   if (!details) return;
-  const { title, description, tagList, favoritesCount, updatedAt, author } =
-    details;
+  const {
+    title,
+    description,
+    tagList,
+    favoritesCount,
+    updatedAt,
+    author,
+    slug,
+  } = details;
   const { username, image } = author;
   return (
     <div className={classes["article-item"]}>
@@ -21,14 +29,24 @@ const ArticleHeader = ({ details }) => {
           {description}
         </article>
       </div>
-      <div className={classes["article-item__signature"]}>
-        <div className={classes["signature"]}>
-          <span className={classes["signature__name"]}>{username}</span>
-          <span className={classes["signature__date"]}>
-            {format(new Date(updatedAt), "LLLL d, y")}
-          </span>
+      <div className={classes["article-item__interface"]}>
+        <div className={classes["article-item__signature"]}>
+          <div className={classes["signature"]}>
+            <span className={classes["signature__name"]}>{username}</span>
+            <span className={classes["signature__date"]}>
+              {format(new Date(updatedAt), "LLLL d, y")}
+            </span>
+          </div>
+          <Avatar size={46} src={image} />
         </div>
-        <Avatar size={46} src={image} />
+        <ul className={classes["control-btn"]}>
+          <li>
+            <Link to={`/articles/${slug}/edit`}>Edit</Link>
+          </li>
+          <li>
+            <Link to={"/"}>Delete</Link>
+          </li>
+        </ul>
       </div>
     </div>
   );
