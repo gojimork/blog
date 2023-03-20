@@ -11,6 +11,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import SignIn from "../sign-in";
+import CreateArticle from "../create-article";
 import { useCookies } from "react-cookie";
 
 const App = () => {
@@ -53,6 +54,12 @@ const App = () => {
               path="/profile"
               render={() => {
                 return <Profile cookies={cookies} />;
+              }}
+            />
+            <Route
+              path="/new-article"
+              render={() => {
+                return <CreateArticle cookies={cookies} />;
               }}
             />
             <Redirect to="page/1" />

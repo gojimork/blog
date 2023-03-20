@@ -57,4 +57,18 @@ export default class BlogApiService {
       body: JSON.stringify(body),
     });
   };
+
+  createArticle = (body, token) => {
+    const url = `${this._apiBase}/articles`;
+    console.log(JSON.stringify(body));
+    console.log(token);
+    return fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify(body),
+    });
+  };
 }
