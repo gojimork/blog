@@ -4,6 +4,7 @@ import BlogApiService from "../../blog-api-service";
 import classes from "./sign-in.module.scss";
 import { useState } from "react";
 import { Alert } from "antd";
+import { useHistory } from "react-router-dom";
 
 const SignIn = ({ setUserDetails, setCookie }) => {
   const [serverError, setServerError] = useState(false);
@@ -14,6 +15,8 @@ const SignIn = ({ setUserDetails, setCookie }) => {
     handleSubmit,
   } = useForm({ mode: "onBlur" });
 
+  const history = useHistory();
+
   const onSignIn = async (user) => {
     try {
       const response = await blogApiService.userLogin({ user });
@@ -23,6 +26,7 @@ const SignIn = ({ setUserDetails, setCookie }) => {
         setServerError(false);
         setCookie("token", token, { path: "/" });
         console.log("loggined successfully", userDetails);
+        history.push("/");
       } else {
         const errorObj = await response.json();
         const errors = errorObj.errors;

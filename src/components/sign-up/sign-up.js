@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import classes from "./sign-up.module.scss";
 import BlogApiService from "../../blog-api-service";
 import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 
 const SignUp = () => {
   const {
@@ -12,6 +13,8 @@ const SignUp = () => {
     setError,
   } = useForm({ mode: "onBlur" });
 
+  const history = useHistory();
+
   const blogApiService = new BlogApiService();
 
   const onCreateUserSubmit = async (user) => {
@@ -19,6 +22,7 @@ const SignUp = () => {
       const response = await blogApiService.postUser({ user });
       if (response.ok) {
         console.log("Form data submitted successfully");
+        history.push("/sign-in");
       } else {
         const errorsObj = await response.json();
         const errors = errorsObj.errors;
