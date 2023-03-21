@@ -5,8 +5,9 @@ import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useHistory } from "react-router-dom";
 
-const CreateArticle = ({ cookies, details }) => {
+const CreateArticle = ({ cookies, details, success }) => {
   const [inputs, setInputs] = useState([{ value: "", id: uuidv4() }]);
+
   const history = useHistory();
 
   useEffect(() => {
@@ -15,7 +16,6 @@ const CreateArticle = ({ cookies, details }) => {
     }
   }, [details]);
 
-  console.log(details);
   const {
     register,
     formState: { errors },
@@ -87,6 +87,7 @@ const CreateArticle = ({ cookies, details }) => {
       if (response.ok) {
         const responseBody = await response.json();
         console.log("Article created successfully", responseBody);
+        success();
         history.push("/");
       } else {
         const errorsObj = await response.json();

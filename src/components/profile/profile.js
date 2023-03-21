@@ -1,8 +1,9 @@
 import classes from "./profile.module.scss";
 import BlogApiService from "../../blog-api-service";
 import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 
-const Profile = ({ cookies }) => {
+const Profile = ({ cookies, success }) => {
   const {
     register,
     formState: { errors },
@@ -10,6 +11,7 @@ const Profile = ({ cookies }) => {
     setError,
   } = useForm({ mode: "onBlur" });
 
+  const history = useHistory();
   const blogApiService = new BlogApiService();
 
   const onEditSubmit = async (user) => {
@@ -19,6 +21,8 @@ const Profile = ({ cookies }) => {
       const response = await blogApiService.editProfile(body, token);
       if (response.ok) {
         console.log("Profile edited successfully", user);
+        success();
+        history.push("/");
       } else {
         const errorsObj = await response.json();
         console.log(errorsObj);

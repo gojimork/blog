@@ -9,13 +9,21 @@ const Like = ({ favoritesCount, slug }) => {
   const [liked, setLiked] = useState(false);
   const [wasClick, setWasClick] = useState(false);
   const [cookeis] = useCookies();
+
   const blogApiService = useMemo(() => new BlogApiService(), []);
+
   const onLikeClick = () => {
-    setWasClick(true);
+    if (cookeis.token) {
+      setLiked(!liked);
+      setWasClick(true);
+    } else {
+      console.log("need auth");
+    }
   };
 
   const postLike = useCallback(async () => {
     console.log("postLike");
+
     if (liked) {
       console.log("liked", liked);
       const response = await blogApiService.likeArticle(slug, cookeis.token);
@@ -23,7 +31,6 @@ const Like = ({ favoritesCount, slug }) => {
         const body = await blogApiService.getArticleDetails(slug);
         const newLikesCount = body.favoritesCount;
         setLikesCount(newLikesCount);
-        setLiked(true);
       }
     } else {
       console.log("liked", liked);
@@ -32,7 +39,6 @@ const Like = ({ favoritesCount, slug }) => {
         const body = await blogApiService.getArticleDetails(slug);
         const newLikesCount = body.favoritesCount;
         setLikesCount(newLikesCount);
-        setLiked(false);
       }
     }
   }, [liked, blogApiService, slug, cookeis]);
@@ -41,8 +47,6 @@ const Like = ({ favoritesCount, slug }) => {
     if (wasClick) {
       postLike();
       setWasClick(false);
-    } else {
-      console.log("useEffect() don't init");
     }
   }, [postLike, wasClick]);
 

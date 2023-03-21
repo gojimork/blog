@@ -3,7 +3,7 @@ import CreateArticle from "../create-article";
 import BlogApiService from "../../blog-api-service";
 import { v4 as uuidv4 } from "uuid";
 
-const EditArticle = ({ slug, cookies }) => {
+const EditArticle = ({ slug, cookies, success }) => {
   const [details, setDetails] = useState({
     title: "",
     description: "",
@@ -31,7 +31,9 @@ const EditArticle = ({ slug, cookies }) => {
     putArticleDetails(slug);
   }, [slug, putArticleDetails]);
 
-  return <CreateArticle details={details} cookies={cookies} />;
+  return (
+    <CreateArticle details={details} cookies={cookies} success={success} />
+  );
 };
 
 export default EditArticle;

@@ -4,7 +4,7 @@ import BlogApiService from "../../blog-api-service";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 
-const SignUp = () => {
+const SignUp = ({ success }) => {
   const {
     register,
     formState: { errors },
@@ -22,6 +22,7 @@ const SignUp = () => {
       const response = await blogApiService.postUser({ user });
       if (response.ok) {
         console.log("Form data submitted successfully");
+        success();
         history.push("/sign-in");
       } else {
         const errorsObj = await response.json();

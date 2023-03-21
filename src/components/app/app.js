@@ -14,14 +14,22 @@ import SignIn from "../sign-in";
 import CreateArticle from "../create-article";
 import EditArticle from "../edit-article";
 import { useCookies } from "react-cookie";
+import { message } from "antd";
 
 const App = () => {
   const [cookies, setCookie, removeCookie] = useCookies();
-
+  const [messageApi, contextHolder] = message.useMessage();
+  const success = () => {
+    messageApi.open({
+      type: "success",
+      content: "success",
+    });
+  };
   return (
     <Router>
       <div className={classes["app-wrap"]}>
         <Header cookies={cookies} removeCookie={removeCookie} />
+        {contextHolder}
         <div className={classes["articles-wrap"]}>
           <Switch>
             <Route
@@ -42,32 +50,38 @@ const App = () => {
             <Route
               path="/sign-up"
               render={() => {
-                return <SignUp />;
+                return <SignUp success={success} />;
               }}
             />
             <Route
               path="/sign-in"
               render={() => {
-                return <SignIn setCookie={setCookie} />;
+                return <SignIn setCookie={setCookie} success={success} />;
               }}
             />
             <Route
               path="/profile"
               render={() => {
-                return <Profile cookies={cookies} />;
+                return <Profile cookies={cookies} success={success} />;
               }}
             />
             <Route
               path="/new-article"
               render={() => {
-                return <CreateArticle editMode={false} cookies={cookies} />;
+                return <CreateArticle cookies={cookies} success={success} />;
               }}
             />
             <Route
               path="/articles/:slug/edit"
               render={({ match }) => {
                 const { slug } = match.params;
-                return <EditArticle slug={slug} cookies={cookies} />;
+                return (
+                  <EditArticle
+                    slug={slug}
+                    cookies={cookies}
+                    success={success}
+                  />
+                );
               }}
             />
             <Redirect to="/page/1" />

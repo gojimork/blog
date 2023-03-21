@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Alert } from "antd";
 import { useHistory } from "react-router-dom";
 
-const SignIn = ({ setUserDetails, setCookie }) => {
+const SignIn = ({ setCookie, success }) => {
   const [serverError, setServerError] = useState(false);
   const blogApiService = new BlogApiService();
   const {
@@ -26,6 +26,7 @@ const SignIn = ({ setUserDetails, setCookie }) => {
         setServerError(false);
         setCookie("token", token, { path: "/" });
         console.log("loggined successfully", userDetails);
+        success();
         history.push("/");
       } else {
         const errorObj = await response.json();
