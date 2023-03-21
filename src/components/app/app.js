@@ -44,7 +44,7 @@ const App = () => {
               path="/article/:slug"
               render={({ match }) => {
                 const { slug } = match.params;
-                return <ArticleDetails slug={slug} />;
+                return <ArticleDetails slug={slug} success={success} />;
               }}
             />
             <Route
