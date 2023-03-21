@@ -1,12 +1,17 @@
 import classes from "./article-header.module.scss";
-import { Avatar } from "antd";
+import { Avatar, Popconfirm } from "antd";
 import Like from "../like";
 import Tags from "../tags";
 import { format } from "date-fns";
 import { useHistory } from "react-router-dom";
+import BlogApiService from "../../blog-api-service";
+import { useCookies } from "react-cookie";
 
 const ArticleHeader = ({ details }) => {
+  const blogApiService = new BlogApiService();
   const history = useHistory();
+  const [cookies] = useCookies();
+  const token = cookies.token;
   if (!details) return;
 
   const {
@@ -42,14 +47,28 @@ const ArticleHeader = ({ details }) => {
           </div>
           <Avatar size={46} src={image} />
         </div>
-        <ul className={classes["control-btn"]}>
+        <ul className={classes["control-btns"]}>
           <li>
-            <button onClick={() => history.push(`/articles/${slug}/edit`)}>
+            <button
+              className={classes["edit-btn"]}
+              onClick={() => history.push(`/articles/${slug}/edit`)}
+            >
               Edit
             </button>
           </li>
           <li>
-            <button onClick={() => history.push("/")}>Delete</button>
+            <Popconfirm
+              title="Delete?"
+              okText="Yes"
+              cancelText="No"
+              onConfirm={() => {
+                blogApiService.deleteArticle(slug, token).then(console.log);
+                history.push("/");
+              }}
+              onCancel={() => console.log("delete canceled")}
+            >
+              <button className={classes["delete-btn"]}>Delete</button>
+            </Popconfirm>
           </li>
         </ul>
       </div>

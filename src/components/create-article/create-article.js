@@ -3,9 +3,11 @@ import BlogApiService from "../../blog-api-service";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { useHistory } from "react-router-dom";
 
 const CreateArticle = ({ cookies, details }) => {
   const [inputs, setInputs] = useState([{ value: "", id: uuidv4() }]);
+  const history = useHistory();
 
   useEffect(() => {
     if (details) {
@@ -35,6 +37,13 @@ const CreateArticle = ({ cookies, details }) => {
     setInputs(newInputs);
   };
 
+  const handleDeleteInput = (index) => {
+    const newInputs = inputs.filter(
+      (input, inputIndex) => index !== inputIndex
+    );
+    setInputs(newInputs);
+  };
+
   const handleChangeInputValue = (index, event) => {
     const newInputs = [...inputs];
     newInputs[index].value = event.target.value;
@@ -49,7 +58,11 @@ const CreateArticle = ({ cookies, details }) => {
           value={input.value}
           onChange={(event) => handleChangeInputValue(index, event)}
         />
-        <button type="button" className={classes["form__delete-btn"]}>
+        <button
+          onClick={() => handleDeleteInput(index)}
+          type="button"
+          className={classes["form__delete-btn"]}
+        >
           Delete
         </button>
         {index === inputs.length - 1 ? (
@@ -74,6 +87,7 @@ const CreateArticle = ({ cookies, details }) => {
       if (response.ok) {
         const responseBody = await response.json();
         console.log("Article created successfully", responseBody);
+        history.push("/");
       } else {
         const errorsObj = await response.json();
         console.log(errorsObj);

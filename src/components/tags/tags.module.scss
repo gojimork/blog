@@ -1,3 +1,5 @@
 .tags-list {
   display: flex;
+  max-width: 600px;
+  overflow-x: hidden;
 }
