@@ -9,7 +9,6 @@ export default function Header({ cookies, removeCookie }) {
   const [userDetails, setUserDetails] = useState(null);
   const blogApiService = useMemo(() => new BlogApiService(), []);
 
-  console.log(cookies);
   const auth = useCallback(async () => {
     if (Object.keys(cookies).length > 0) {
       try {
@@ -37,6 +36,9 @@ export default function Header({ cookies, removeCookie }) {
 
   if (isLoggedIn) {
     const { username } = userDetails;
+    const image = userDetails?.image
+      ? userDetails?.image
+      : "https://static.productionready.io/images/smiley-cyrus.jpg";
     return (
       <header className={classes.header}>
         <Link to="/" className={classes["header__title"]}>
@@ -54,10 +56,7 @@ export default function Header({ cookies, removeCookie }) {
           <li>
             <Link to="/profile" className={classes.user}>
               <span>{username}</span>
-              <Avatar
-                size={46}
-                src="https://static.productionready.io/images/smiley-cyrus.jpg"
-              />
+              <Avatar size={46} src={image} />
             </Link>
           </li>
           <li>
