@@ -7,10 +7,11 @@ import { useCookies } from "react-cookie";
 const Like = ({ favoritesCount, slug }) => {
   const [likesCount, setLikesCount] = useState(favoritesCount);
   const [liked, setLiked] = useState(false);
+  const [wasClick, setWasClick] = useState(false);
   const [cookeis] = useCookies();
   const blogApiService = useMemo(() => new BlogApiService(), []);
   const onLikeClick = () => {
-    setLiked(!liked);
+    setWasClick(true);
   };
 
   const postLike = useCallback(async () => {
@@ -22,6 +23,7 @@ const Like = ({ favoritesCount, slug }) => {
         const body = await blogApiService.getArticleDetails(slug);
         const newLikesCount = body.favoritesCount;
         setLikesCount(newLikesCount);
+        setLiked(true);
       }
     } else {
       console.log("liked", liked);
@@ -30,14 +32,19 @@ const Like = ({ favoritesCount, slug }) => {
         const body = await blogApiService.getArticleDetails(slug);
         const newLikesCount = body.favoritesCount;
         setLikesCount(newLikesCount);
+        setLiked(false);
       }
     }
   }, [liked, blogApiService, slug, cookeis]);
 
   useEffect(() => {
-    console.log("useEffect()");
-    postLike();
-  }, [postLike]);
+    if (wasClick) {
+      postLike();
+      setWasClick(false);
+    } else {
+      console.log("useEffect() don't init");
+    }
+  }, [postLike, wasClick]);
 
   return (
     <button className={classes.like} onClick={onLikeClick}>
