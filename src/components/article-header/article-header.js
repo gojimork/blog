@@ -30,7 +30,7 @@ const ArticleHeader = ({ details }) => {
       <div className={classes["article-item__content"]}>
         <div className={classes["article-item__header"]}>
           <h5 className={classes["article-item__title"]}>{title}</h5>
-          <Like favoritesCount={favoritesCount} />
+          <Like favoritesCount={favoritesCount} slug={slug} />
         </div>
         <Tags tagList={tagList} />
         <article className={classes["article-item__text"]}>

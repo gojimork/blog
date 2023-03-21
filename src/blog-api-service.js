@@ -74,8 +74,30 @@ export default class BlogApiService {
 
   deleteArticle = (slug, token) => {
     const url = `${this._apiBase}/articles/${slug}`;
-    console.log(JSON.stringify(slug));
+    console.log(slug);
     console.log(token);
+    return fetch(url, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    });
+  };
+
+  likeArticle = (slug, token) => {
+    const url = `${this._apiBase}/articles/${slug}/favorite`;
+    return fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    });
+  };
+
+  disLikeArticle = (slug, token) => {
+    const url = `${this._apiBase}/articles/${slug}/favorite`;
     return fetch(url, {
       method: "DELETE",
       headers: {
