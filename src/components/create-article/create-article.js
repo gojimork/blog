@@ -6,10 +6,12 @@ import { v4 as uuidv4 } from "uuid";
 import { useHistory } from "react-router-dom";
 
 const CreateArticle = ({ cookies, details, success }) => {
+  const history = useHistory();
+
+  if (!cookies?.token) history.push("/");
+
   const [inputs, setInputs] = useState([{ value: "", id: uuidv4() }]);
   const [loading, setLoading] = useState(false);
-
-  const history = useHistory();
 
   useEffect(() => {
     if (details) {

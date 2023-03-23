@@ -13,11 +13,13 @@ const Profile = ({ success }) => {
     setError,
   } = useForm({ mode: "onBlur" });
 
+  const history = useHistory();
   const [cookies, setCookie] = useCookies();
+
+  if (!cookies?.token) history.push("/");
 
   const [loading, setLoading] = useState(false);
 
-  const history = useHistory();
   const blogApiService = new BlogApiService();
 
   const onEditSubmit = async (user) => {
