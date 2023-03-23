@@ -2,6 +2,7 @@ import classes from "./profile.module.scss";
 import BlogApiService from "../../blog-api-service";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
+import { useState } from "react";
 
 const Profile = ({ cookies, success }) => {
   const {
@@ -11,6 +12,8 @@ const Profile = ({ cookies, success }) => {
     setError,
   } = useForm({ mode: "onBlur" });
 
+  const [loading, setLoading] = useState(false);
+
   const history = useHistory();
   const blogApiService = new BlogApiService();
 
@@ -18,6 +21,7 @@ const Profile = ({ cookies, success }) => {
     const body = { user: user };
     const token = cookies.token;
     try {
+      setLoading(true);
       const response = await blogApiService.editProfile(body, token);
       if (response.ok) {
         console.log("Profile edited successfully", user);
@@ -33,6 +37,8 @@ const Profile = ({ cookies, success }) => {
       }
     } catch (error) {
       console.error("Profile edited failed", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -101,7 +107,11 @@ const Profile = ({ cookies, success }) => {
         </li>
       </ul>
 
-      <button className={classes["submit-btn"]} type="submit">
+      <button
+        className={classes["submit-btn"]}
+        type="submit"
+        disabled={loading}
+      >
         Save
       </button>
     </form>

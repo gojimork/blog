@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 
 const CreateArticle = ({ cookies, details, success }) => {
   const [inputs, setInputs] = useState([{ value: "", id: uuidv4() }]);
+  const [loading, setLoading] = useState(false);
 
   const history = useHistory();
 
@@ -83,6 +84,7 @@ const CreateArticle = ({ cookies, details, success }) => {
     const body = { article: article };
     const token = cookies.token;
     try {
+      setLoading(true);
       const response = await blogApiService.createArticle(body, token);
       if (response.ok) {
         const responseBody = await response.json();
@@ -99,6 +101,8 @@ const CreateArticle = ({ cookies, details, success }) => {
       }
     } catch (error) {
       console.error("Article created failed", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -149,7 +153,11 @@ const CreateArticle = ({ cookies, details, success }) => {
           </ul>
         </li>
       </ul>
-      <button className={classes["submit-btn"]} type="submit">
+      <button
+        className={classes["submit-btn"]}
+        disabled={loading}
+        type="submit"
+      >
         Save
       </button>
     </form>

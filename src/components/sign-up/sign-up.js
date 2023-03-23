@@ -3,6 +3,7 @@ import classes from "./sign-up.module.scss";
 import BlogApiService from "../../blog-api-service";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
+import { useState } from "react";
 
 const SignUp = ({ success }) => {
   const {
@@ -13,12 +14,15 @@ const SignUp = ({ success }) => {
     setError,
   } = useForm({ mode: "onBlur" });
 
+  const [loading, setLoading] = useState(false);
+
   const history = useHistory();
 
   const blogApiService = new BlogApiService();
 
   const onCreateUserSubmit = async (user) => {
     try {
+      setLoading(true);
       const response = await blogApiService.postUser({ user });
       if (response.ok) {
         console.log("Form data submitted successfully");
@@ -33,6 +37,8 @@ const SignUp = ({ success }) => {
       }
     } catch (error) {
       console.error("Form submission failed", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -122,7 +128,11 @@ const SignUp = ({ success }) => {
         {errors?.agreement && <p>{errors?.agreement?.message || "Error!"}</p>}
       </div>
 
-      <button className={classes["submit-btn"]} type="submit">
+      <button
+        className={classes["submit-btn"]}
+        disabled={loading}
+        type="submit"
+      >
         Create
       </button>
       <span className={classes.question}>

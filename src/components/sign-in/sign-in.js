@@ -8,6 +8,7 @@ import { useHistory } from "react-router-dom";
 
 const SignIn = ({ setCookie, success }) => {
   const [serverError, setServerError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const blogApiService = new BlogApiService();
   const {
     register,
@@ -19,6 +20,7 @@ const SignIn = ({ setCookie, success }) => {
 
   const onSignIn = async (user) => {
     try {
+      setLoading(true);
       const response = await blogApiService.userLogin({ user });
       if (response.ok) {
         const userDetails = await response.json();
@@ -38,6 +40,8 @@ const SignIn = ({ setCookie, success }) => {
       }
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -81,7 +85,11 @@ const SignIn = ({ setCookie, success }) => {
         </li>
       </ul>
 
-      <button className={classes["submit-btn"]} type="submit">
+      <button
+        className={classes["submit-btn"]}
+        type="submit"
+        disabled={loading}
+      >
         Login
       </button>
       <span className={classes.question}>
