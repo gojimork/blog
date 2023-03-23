@@ -20,6 +20,7 @@ const ArticleHeader = ({ details, token, success }) => {
     updatedAt,
     author,
     slug,
+    favorited,
   } = details;
 
   const { username, image } = author;
@@ -43,7 +44,11 @@ const ArticleHeader = ({ details, token, success }) => {
       <div className={classes["article-item__content"]}>
         <div className={classes["article-item__header"]}>
           <h5 className={classes["article-item__title"]}>{title}</h5>
-          <Like favoritesCount={favoritesCount} slug={slug} />
+          <Like
+            favoritesCount={favoritesCount}
+            slug={slug}
+            favorited={favorited}
+          />
         </div>
         <Tags tagList={tagList} />
         <article className={classes["article-item__text"]}>

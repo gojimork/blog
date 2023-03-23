@@ -26,7 +26,7 @@ const SignIn = ({ setCookie, success }) => {
         const userDetails = await response.json();
         const token = userDetails.user.token;
         setServerError(false);
-        setCookie("token", token, { path: "/" });
+        setCookie("token", token);
         console.log("loggined successfully", userDetails);
         success();
         history.push("/");

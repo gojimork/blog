@@ -3,14 +3,17 @@ import BlogApiService from "../../blog-api-service";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
+import { useCookies } from "react-cookie";
 
-const Profile = ({ cookies, success }) => {
+const Profile = ({ success }) => {
   const {
     register,
     formState: { errors },
     handleSubmit,
     setError,
   } = useForm({ mode: "onBlur" });
+
+  const [cookies, setCookie] = useCookies();
 
   const [loading, setLoading] = useState(false);
 
@@ -25,6 +28,7 @@ const Profile = ({ cookies, success }) => {
       const response = await blogApiService.editProfile(body, token);
       if (response.ok) {
         console.log("Profile edited successfully", user);
+        setCookie("username", user.username);
         success();
         history.push("/");
       } else {

@@ -10,9 +10,9 @@ export default function Header({ cookies, removeCookie }) {
   const blogApiService = useMemo(() => new BlogApiService(), []);
 
   const auth = useCallback(async () => {
-    if (Object.keys(cookies).length > 0) {
+    if (cookies?.token) {
       try {
-        const response = await blogApiService.getUser(cookies?.token);
+        const response = await blogApiService.getUser(cookies.token);
         if (response.ok) {
           const { user } = await response.json();
           setUserDetails(user);

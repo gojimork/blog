@@ -5,43 +5,41 @@ import BlogApiService from "../../blog-api-service";
 import { useCookies } from "react-cookie";
 
 const Like = ({ favoritesCount, slug }) => {
+  const [cookies, setCookie] = useCookies();
   const [likesCount, setLikesCount] = useState(favoritesCount);
-  const [liked, setLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(cookies[slug]);
   const [wasClick, setWasClick] = useState(false);
-  const [cookeis] = useCookies();
 
   const blogApiService = useMemo(() => new BlogApiService(), []);
 
   const onLikeClick = () => {
-    if (cookeis.token) {
-      setLiked(!liked);
-      setWasClick(true);
+    if (cookies.token) {
+      setWasClick(!wasClick);
     } else {
       console.log("need auth");
     }
   };
-
   const postLike = useCallback(async () => {
-    console.log("postLike");
-
-    if (liked) {
-      console.log("liked", liked);
-      const response = await blogApiService.likeArticle(slug, cookeis.token);
+    if (!isLiked) {
+      const response = await blogApiService.likeArticle(slug, cookies.token);
       if (response.ok) {
-        const body = await blogApiService.getArticleDetails(slug);
-        const newLikesCount = body.favoritesCount;
-        setLikesCount(newLikesCount);
+        const body = await response.json();
+        const { article } = body;
+        setLikesCount(article.favoritesCount);
+        setIsLiked(true);
+        setCookie(slug, "isLiked");
       }
     } else {
-      console.log("liked", liked);
-      const response = await blogApiService.disLikeArticle(slug, cookeis.token);
+      const response = await blogApiService.disLikeArticle(slug, cookies.token);
       if (response.ok) {
-        const body = await blogApiService.getArticleDetails(slug);
-        const newLikesCount = body.favoritesCount;
-        setLikesCount(newLikesCount);
+        const body = await response.json();
+        const { article } = body;
+        setLikesCount(article.favoritesCount);
+        setIsLiked(false);
+        setCookie(slug, "");
       }
     }
-  }, [liked, blogApiService, slug, cookeis]);
+  }, [isLiked, blogApiService, slug, cookies, setCookie]);
 
   useEffect(() => {
     if (wasClick) {
@@ -52,7 +50,7 @@ const Like = ({ favoritesCount, slug }) => {
 
   return (
     <button className={classes.like} onClick={onLikeClick}>
-      {liked ? <HeartFilled /> : <HeartOutlined />}
+      {isLiked ? <HeartFilled /> : <HeartOutlined />}
       <span>{likesCount}</span>
     </button>
   );
