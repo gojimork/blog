@@ -25,6 +25,14 @@ const App = () => {
       content: "success",
     });
   };
+  const articleList = "/page/:page";
+  const articleDetails = "/article/:slug";
+  const signUp = "/sign-up";
+  const signIn = "/sign-in";
+  const profile = "/profile";
+  const createArticle = "/new-article";
+  const editArticle = "/articles/:slug/edit";
+  const defaultPage = "/page/1";
   return (
     <Router>
       <div className={classes["app-wrap"]}>
@@ -34,45 +42,45 @@ const App = () => {
           <Switch>
             <Route
               exact
-              path="/page/:page"
+              path={articleList}
               render={({ match }) => {
                 const { page } = match.params;
                 return <Articles page={Number(page)} />;
               }}
             />
             <Route
-              path="/article/:slug"
+              path={articleDetails}
               render={({ match }) => {
                 const { slug } = match.params;
                 return <ArticleDetails slug={slug} success={success} />;
               }}
             />
             <Route
-              path="/sign-up"
+              path={signUp}
               render={() => {
                 return <SignUp success={success} />;
               }}
             />
             <Route
-              path="/sign-in"
+              path={signIn}
               render={() => {
                 return <SignIn setCookie={setCookie} success={success} />;
               }}
             />
             <Route
-              path="/profile"
+              path={profile}
               render={() => {
                 return <Profile cookies={cookies} success={success} />;
               }}
             />
             <Route
-              path="/new-article"
+              path={createArticle}
               render={() => {
                 return <CreateArticle cookies={cookies} success={success} />;
               }}
             />
             <Route
-              path="/articles/:slug/edit"
+              path={editArticle}
               render={({ match }) => {
                 const { slug } = match.params;
                 return (
@@ -84,7 +92,7 @@ const App = () => {
                 );
               }}
             />
-            <Redirect to="/page/1" />
+            <Redirect to={defaultPage} />
           </Switch>
         </div>
       </div>
